@@ -19,14 +19,14 @@
 # The following options will be passed to all MySQL clients
 [client]
 #password	= your_password
-port		= 3306
+port		= 33061
 socket		= /var/run/mysqld/mysqld.sock
 
 # Here follows entries for some specific programs
 
 # The MySQL server
 [mysqld]
-port		= 3306
+port		= 33061
 socket		= /var/run/mysqld/mysqld.sock
 skip-external-locking
 key_buffer_size = 16K
