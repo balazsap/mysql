@@ -13,4 +13,4 @@ for the full readme on how to use this Docker image and for information regardin
 
 The goal of this fork was to build ARM64 and AMD64 compatible images
 
-Exposed port is changed to 33060
+Exposed port is changed to 33061
