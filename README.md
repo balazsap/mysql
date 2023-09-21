@@ -12,3 +12,5 @@ is a fork of the Git repo of the Docker [official image](https://docs.docker.com
 for the full readme on how to use this Docker image and for information regarding contributing and issues.
 
 The goal of this fork was to build ARM64 and AMD64 compatible images
+
+Exposed port is changed to 33061
