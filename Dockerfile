@@ -1,12 +1,13 @@
 # 1. Define args usable during the pre-build phase
 # BUILD_ARCH: the docker architecture, with a tailing '/'. For instance, "arm64v8/"
 ARG BUILD_ARCH
+ARG MYSQL_VERSION
 
 # Changed from original - end: don't inherit from debian:jessie, because mysql-server-5.7 don't exist on debian:jessie arm apt-get repo
 FROM ${BUILD_ARCH}ubuntu:bionic
 # Changed from original - end
 # Changed from original - start: add one line to override the maintainer
-MAINTAINER Brother In Arms <project.biarms@gmail.com>
+MAINTAINER https://github.com/balazsap
 # Changed from original - end
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
@@ -53,6 +54,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # ENV MYSQL_VERSION 5.7.21-1debian8
 # Changed from original - end
 
+ENV MYSQL_VERSION=${MYSQL_VERSION:-5.7.21-1ubuntu1} 
+
 # Changed from original - start: mysql-server is found in official ubuntu repo
 # RUN echo "deb http://repo.mysql.com/apt/debian/ jessie mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
 # Changed from original - end
@@ -69,7 +72,7 @@ RUN { \
 		echo mysql-server mysql-server/remove-test-db select false; \
         # Changed from original - end
 	} | debconf-set-selections \
-	&& apt-get update && apt-get install -y "mysql-server" && rm -rf /var/lib/apt/lists/* \
+	&& apt-get update && apt-get install -y "mysql-server=${MYSQL_VERSION}" && rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /var/lib/mysql && mkdir -p /var/lib/mysql /var/run/mysqld \
 	&& chown -R mysql:mysql /var/lib/mysql /var/run/mysqld \
 # ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime
@@ -97,7 +100,7 @@ ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 # To solve this error message:
 # There were fatal errors during processing of zoneinfo directory
 # make: *** [test] Error 1
-RUN ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && rm -rf /var/lib/apt/lists/*
+RUN ln -fs /usr/share/zoneinfo/Europe/Budapest /etc/localtime && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && rm -rf /var/lib/apt/lists/*
 # Changed from original - end
 
 
@@ -113,4 +116,4 @@ ARG BUILD_DATE
 LABEL \
 	org.label-schema.build-date=${BUILD_DATE} \
 	org.label-schema.vcs-ref=${VCS_REF} \
-	org.label-schema.vcs-url="https://github.com/biarms/mysql"
+	org.label-schema.vcs-url="https://github.com/balazsap/mysql"
