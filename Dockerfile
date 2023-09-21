@@ -103,7 +103,7 @@ ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 RUN ln -fs /usr/share/zoneinfo/Europe/Budapest /etc/localtime && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && rm -rf /var/lib/apt/lists/*
 # Changed from original - end
 
-
+ENV MYSQL_TCP_PORT 33060
 EXPOSE 33060
 CMD ["mysqld"]
 
