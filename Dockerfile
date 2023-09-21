@@ -104,7 +104,7 @@ RUN ln -fs /usr/share/zoneinfo/Europe/Budapest /etc/localtime && apt-get update 
 # Changed from original - end
 
 
-EXPOSE 3306
+EXPOSE 33060
 CMD ["mysqld"]
 
 # Changed from original: next line was added
